@@ -8,7 +8,7 @@ namespace FP_CS.Tests
         [Fact]
         public void SomefulOptionShouldBeConvertedToEitherRight()
         {
-            var o = Option.Of("hello");
+            var o = Option.Some("hello");
             var e = Either.FromOption<string, string>("left value")(o);
 
             Assert.Equal(EitherType.Right, e.Type);

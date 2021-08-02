@@ -27,5 +27,24 @@ namespace FP_CS
 
                 return Either.Right<L, R>(option.Value);
             };
+
+        public static Func<R, Either<L, R>> FromPredicate<L, R>(Func<R, bool> predicate, Func<L> onFalse) =>
+            value => 
+            {
+                if (!predicate(value))
+                    return Either.Left<L, R>(onFalse());
+
+                return Either.Right<L, R>(value);
+            };
+
+        public static Func<Either<L, A>, Either<L, B>> Chain<L, A, B>(Func<A, Either<L, B>> ab) =>
+            a => 
+            {
+                if (a.IsLeft())
+                    return Either.Left<L, B>(a.Left);
+
+                return ab(a.Right);
+            };
+
     }
 }
