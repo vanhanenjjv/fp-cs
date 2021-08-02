@@ -1,5 +1,4 @@
-﻿using System;
-using FP_CS;
+﻿using FP_CS;
 
 var validateCredentials = Function.Flow(
     Either.FromPredicate<Error, Credentials>(
@@ -12,7 +11,14 @@ var validateCredentials = Function.Flow(
     ))
 );
 
-var result = validateCredentials(new Credentials("root", "p4ssw0rd"));
+Function.Pipe(
+    new Credentials("root", "p4ssw0rd"),
+    validateCredentials,
+    Either.Match<Error, Credentials, Unit>(
+        error => Console.WriteLine(error.Message),
+        credentials => Console.WriteLine("Successful login")
+    )
+);
 
 record Credentials(string Username, string Password);
 record Error(string Message);

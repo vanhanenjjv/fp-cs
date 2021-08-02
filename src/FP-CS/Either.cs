@@ -46,5 +46,13 @@ namespace FP_CS
                 return ab(a.Right);
             };
 
+        public static Func<Either<L, R>, B> Match<L, R, B>(Func<L, B> onLeft, Func<R, B> onRight) =>
+            either =>
+            {
+                if (either.IsLeft())
+                    return onLeft(either.Left);
+
+                return onRight(either.Right);
+            };
     }
 }
